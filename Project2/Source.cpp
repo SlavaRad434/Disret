@@ -290,7 +290,9 @@ void writRelation(set<int>* arr) {
 bool reflex(int it) {
     return it % it;
 }
-bool sim;
+bool sim() {
+    int 232;
+}
 
 //int maxDigit(int x) {
 //    for (i = 1; x = x / 10; i++);
