@@ -167,7 +167,7 @@ using namespace std;
 
 int compar(const void* x1, const void* x2) {
     while ((*(int*)x1 == *(int*)x2)) {
-        cout << "Ѕыл введен повтор¤ющийс¤ элемент: " << *(int*)x1 << " ¬ведите еще число : ";
+        cout << "Был введен повторяющийся элемент: " << *(int*)x1 << " ¬ведите еще число : ";
         int* a = (int*)x1;
         cin >> *a;
     }
@@ -223,33 +223,33 @@ int maxDigit(int x) {
     
 }
 
-void printRelation(set<int> arr){
-    int maxDigiArr, N;
-
-
-    N = arr.size();
-    auto it1 = arr.end();
-    it1--;
-    maxDigiArr = maxDigit(*it1);
-    printf(" %*c", maxDigiArr,' ');
-
-    for (int n : arr) {
-        printf("|\t%*d", maxDigiArr, n);
-
-    }
-    cout << endl;
-
-    for (i = 0;i < N * 8 + maxDigiArr;i++)
-        cout <<'-';
-        cout << endl;
-
-    for ( it1 = arr.begin();it1 != arr.end();it1++) {
-        printf(" %*d|\t", maxDigiArr, *it1);
-        for (auto it2 = arr.begin();it2 != arr.end();it2++)
-            printf("%*d\t", maxDigiArr,(bool)(*it1 % *it2));
-        cout << endl;
-    }
-}
+//void printRelation(set<int> arr){
+//    int maxDigiArr, N;
+//
+//
+//    N = arr.size();
+//    auto it1 = arr.end();
+//    it1--;
+//    maxDigiArr = maxDigit(*it1);
+//    printf(" %*c", maxDigiArr,' ');
+//
+//    for (int n : arr) {
+//        printf("|\t%*d", maxDigiArr, n);
+//
+//    }
+//    cout << endl;
+//
+//    for (i = 0;i < N * 8 + maxDigiArr;i++)
+//        cout <<'-';
+//        cout << endl;
+//
+//    for ( it1 = arr.begin();it1 != arr.end();it1++) {
+//        printf(" %*d|\t", maxDigiArr, *it1);
+//        for (auto it2 = arr.begin();it2 != arr.end();it2++)
+//            //printf("%*d\t", maxDigiArr,(bool)(*it1 % *it2));
+//        cout << endl;
+//    }
+//}
 
 //int main() {
 //    int N,maxDigitN;
@@ -287,11 +287,58 @@ void writRelation(set<int>* arr) {
     //  i = 0;
 
 }
-bool reflex(int it) {
-    return it % it;
+bool reflex(bool** relat, int N){ 
+    {
+    if (relat[0][0]) {
+        for (i = 1; i < N; i++)
+                if (relat[i][i])
+                    return 0;//нерефлексивно
+        return 1;//рефлексивно
+    }
+
+    else {
+        for (i = 0; i < N; i++)
+            for (j = i + 1; j < N; j++)
+                if (!relat[i][j])
+                    return 0;//нерефлексивно
+        return -1;//антирефлексивно
+    }
 }
-bool sim() {
-    int 232;
+    //return -1;// при x%x всегда антирефлективно
+}
+int simet(bool** relat,int N) {
+    if (relat[0][1] == relat[1][0]) {
+        for (i = 0; i < N; i++)
+            for (j = i+1; j < N; j++)
+                if (relat[i][j] != relat[j][i])
+                    return 0;//несиметрия
+        return 1;//симетрия
+    }
+    
+    else{
+        for (i = 0; i < N; i++)
+        for (j = i + 1; j < N; j++)
+            if (relat[i][j] == relat[j][i])
+                return 0;//несиметрия;
+        return -1;//антисиметрия
+    }
+}
+
+bool tranzit(bool** relat, int N) {
+    for (int i = 0; i < N; ++i)
+        for (int j = 0; j < N; ++j)
+        {
+            if (i == j) continue;
+            if (!relat[i][j]) continue;
+            for (int k = 0; k < N; ++k)
+            {
+                if (k == i || k == j) continue;
+                if (relat[j][k] == 0) continue;
+
+                if (relat[i][k] == 0) { return 0; }
+            }
+        }
+    return 0;
 }
 
 //int maxDigit(int x) {
@@ -300,17 +347,17 @@ bool sim() {
 //
 //}
 
-void printRelation(set<int>* arr, bool** relat) {
+void printRelation(set<int> arr, bool** relat) {
     int maxDigiArr, N;
 
 
-    N = arr->size();
-    auto it1 = arr->end();
+    N = arr.size();
+    auto it1 = arr.end();
     it1--;
     maxDigiArr = maxDigit(*it1);
     printf(" %*c", maxDigiArr, ' ');
 
-    for (int n : *arr) {
+    for (int n : arr) {
         printf("|\t%*d", maxDigiArr, n);
 
     }
@@ -320,31 +367,47 @@ void printRelation(set<int>* arr, bool** relat) {
         cout << '-';
     cout << endl;
     i = 0;
-    for (it1 = arr->begin(); it1 != arr->end(); it1++, i++) {
+    for (it1 = arr.begin(); it1 != arr.end(); it1++, i++) {
         printf(" %*d|\t", maxDigiArr, *it1);
         j = 0;
-        for (auto it2 = arr->begin(); it2 != arr->end(); it2++, j++)
-            // printf("%*d\t", maxDigiArr, relat[i][j]);
+        for (auto it2 = arr.begin(); it2 != arr.end(); it2++, j++)
+             printf("%*d\t", maxDigiArr, relat[i][j]);
             cout << endl;
     }
 }
 bool relation(int x1, int x2) {
-    return x1 % x2;
-
+    return ((2*x1) % x2)== 0;
 }
-
+void revers_relation(bool**relat,int N,bool** r_relat)
+{
+    for (i = 0; i < N; i++)
+        for (j = 0; j < N; j++)
+        if (relat[i][j])
+            r_relat[j][i] = 1;
+        else r_relat[j][i] = 0;
+}
+void kompoz(bool** relat, bool** r_relat, int N, bool**kompoz) {
+    int k;
+    for (i = 0; i < N; i++)
+        for (j = 0; j < N; j++)
+            if (relat[i][j])
+                for (k = 0; k < N; k++)
+                    if (r_relat[j][k])kompoz[i][k] = 1;
+                    else kompoz[i][k] = 0;
+            
+};
 
 int main() {
     int N, maxDigitN;
     setlocale(LC_ALL, "Russian");
     //cin >> N;
-    N = 200;
-    set<int> arr /*= {175, 54, 5, 24}*/;
+    N = 6;
+    set<int> arr = {175, 54, 5, 24,7,2};
 
-
+    //Ввод
     while (arr.size() < N) {
         //cin >> i;
-        i = rand() % 32000 + 1;
+        i = rand() % 3200 + 1;
         auto ret = arr.insert(i);
         //if (!ret.second) {
         //    cout << "Ѕыл введен повтор¤ющийс¤ элемент: " << i << " ¬ведите еще число : ";
@@ -366,12 +429,53 @@ int main() {
         for (it2 = arr.begin(), j = 0; it2 != arr.end(); j++, it2++)
             relat[i][j] = relation(*it1, *it2);
     }
-    double begin = clock();
-    printRelation(arr);
-    double end = clock();
-    cout << (end - begin) / 1000;
+    //double begin = clock();
+    //printRelation(arr,relat);
+  
+    //double end = clock();
+    //cout << (end - begin) / 1000;
+   // проверка рефлексии
+    res = reflex(relat, N);
+    if (res == 1)cout << "Рефлексивно" << endl;
+    else if (res == 0)cout << "Нерефлексивно" << endl;
+    else cout << "Антирефлексивно" << endl;
+
+    //проверка симетрии
+    res = simet(relat, N);
+    if (res == 1)cout << "Симметрично"<<endl;
+    else if(res==0)cout << "Несимметрично" << endl;
+    else cout << "Антисимметрично" << endl;
+
+    //ghjdthrf nhfypbn
+
+    res = tranzit(relat, N);
+    if (res)cout << "Транзитивно" << endl;
+    else cout << "Нетранзитивно" << endl;
 
 
+    bool** r_relat = new bool* [N];
+    for (int i = 0; i < N; i++)
+        r_relat[i] = new bool[N];
+    revers_relation(relat, N, r_relat);
+    printRelation(arr, relat);
+    printRelation(arr, r_relat);
+
+
+    bool** relat_kompoz = new bool* [N];
+    for (int i = 0; i < N; i++)
+        relat_kompoz[i] = new bool[N];
+    kompoz(relat, r_relat, N, relat_kompoz);
+
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++)
+            cout << relat_kompoz[i][j] << ' ';
+        cout << endl;
+    }
+
+
+    for (int i = 0; i < N; i++)
+    delete[]relat[i];
+    delete[]relat;
 
 }
 //auto it = arr.begin();
