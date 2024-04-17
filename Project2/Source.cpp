@@ -488,6 +488,7 @@
 // ЛР3
 
 #include<iostream>
+#include<algorithm>
 
 using namespace std;
 
@@ -538,6 +539,60 @@ void getRand(int* arr, int size, int k) {
 
 //3.1
 
+template <typename T>
+int indMinMore(T arr, int size, int begin,int minint)
+{int i,minI=99999, indMin;
+for (i = size - 1; i >= begin; i--) {
+	if (arr[i] == minint + 1)
+		return i;
+	else if (arr[i] < minI) {
+		minI = arr[i];
+		indMin = i;
+	}
+ }
+return indMin;
+}
+//template <typename T>
+//void pSwap(T x1, T x2) {
+//	T b;
+//	b = *x1;
+//	*x1 = *x2;
+//	*x2 = *b;
+//}
+
+
+template <typename T>
+void swapi(T &x1, T &x2) {
+	T b;
+	b = x1;
+	x1 = x2;
+	x2 = b;
+}
+
+template <typename T>
+void rotation(T begin, T end) 
+{
+	for (; begin < end; begin++, end--)
+		swapi(*begin, *end);
+}
+
+template <typename T>
+void nextLeks(T arr, int n) {
+	int j,i,b;
+	for (i = n - 1; i && arr[i] <= arr[i - 1]; i--);
+	//cout << i;
+	for (j = n - 1; arr[i - 1] > arr[j]; j--);
+	//cout << j;
+	
+	swapi(arr[j], arr[i - 1]);
+
+	//b = arr[j];
+	//arr[j] = arr[i - 1];
+	//arr[i - 1] = b;
+
+	rotation(arr + i, arr+n-1);
+}
+
 int main() {
 	srand((unsigned)time(0));
 	setlocale(LC_ALL, "Russian");
@@ -576,27 +631,130 @@ int main() {
 	//for (i = 0; i < n; i++)
 	//	cout << arr[i] << ' ';
 
-	int n = 0,i,k;
-	int* rand;
-	cout << "Введите k" << endl;
-	cin >> k;
-	cout << "Введите максимальное число" << endl;
+	//3.3
+
+//	int n = 0,i,k;
+//	//int* rand;
+//	cout << "Введите k" << endl;
+//	cin >> k;
+//	cout << "Введите максимальное число" << endl;
+//	cin >> n;
+//	while (k < 1 || k >= n ) {
+//		cout << "Недопустимое значение" << endl;
+//		cout << "Введите k" << endl;
+//		cin >> k;
+//		cout << "Введите максимальное число" << endl;
+//		cin >> n;
+//	}
+//	
+//	int* arr = new int [n];
+//	for (i = 0; i < n; i++)
+//		arr[i] = i+1;
+//	//mixArr(arr, n);
+//	getRand(arr, n, k);
+//
+//		for (i = 1; i <= k; i++)
+//		cout << arr[n-i]<< ' ';
+//}
+
+	// 3.4
+
+	int n = 0, i,j, b;
+	int* arr;
+
+	cout << "Введите n" << endl;
 	cin >> n;
-	while (k < 1 || k >= n ) {
-		cout << "Недопустимое значение" << endl;
-		cout << "Введите k" << endl;
-		cin >> k;
-		cout << "Введите максимальное число" << endl;
-		cin >> n;
-	}
-	
-	int* arr = new int [n];
+	arr = new int[n];
+	cout << "Введите " << n <<" чисел" << endl;
 	for (i = 0; i < n; i++)
-		arr[i] = i+1;
-	//mixArr(arr, n);
-	getRand(arr, n, k);
+	cin >> arr[i];
+	
+	nextLeks(arr, n);
 
-		for (i = 1; i <= k; i++)
-		cout << arr[n-i]<< ' ';
-
+	for (i = 0; i < n; i++)
+		cout  << arr[i]<< " ";
 }
+
+
+	//int n = 0,m, i, j,k;
+	//	//char chb;
+	//	bool flag=1;
+	////bool arr[20],b;
+	//
+	//cin >> n >> m;
+
+	//bool* arr = new bool[n];
+	//for (i = 0; i < n; i++)
+	//	arr[i] = 0;
+
+	//for (i = 0; i <= m; i++) {
+	//	arr[n-i] = 1;
+	//}
+
+	//for (i = 0; i < n; i++)
+	//	cout << arr[i];
+	//cout << endl;
+
+	//while (flag)
+	//{
+
+	//	nextLeks(arr, n);
+	//	flag = 0;
+	//	for (i = 0; i < m;i++) {
+	//		if (!arr[i])
+	//			flag = 1;
+
+	//	}
+	//	for (i = 0; i < n; i++)
+	//		cout << arr[i];
+	//	cout << endl;
+	//}
+
+	//int n = 0, i,j, b;
+	//;
+	//cout << "Введите n" << endl;
+	//cin >> n;
+	//
+	//int* arr = new int[n];
+	//cout << "Введите " << n << " чисел" << endl;
+	//for(i=0;i<n;)
+	
+
+
+	//chb = getchar();
+	//while ( chb != '0' && chb != '1')
+	//	chb = getchar();
+
+	////chb = getchar();
+	//for (i = 0; chb=='0'||chb=='1'; i++) {
+	//	arr[i] = (bool)(chb - '0');
+	//	chb = getchar();
+	//}
+
+	//while (k < 1 || k >= n) {
+	//	cout << "Недопустимое значение" << endl;
+	//	cout << "Введите k" << endl;
+	//	cin >> k;
+	//	cout << "Введите максимальное число" << endl;
+	//	cin >> n;
+	//}
+	
+	//for (i = n-1; i && arr[i] <= arr[i - 1]; i--);
+	//b = arr[i];
+	//arr[i] = arr[i - 1];
+	//arr[i - 1] = b;
+	//j = i;
+	//while (j < n) {
+	//	for (i = n - 1; i > j; i--)
+	//		if (arr[i] < arr[i - 1])
+	//		{
+	//			b = arr[i];
+	//			arr[i] = arr[i - 1];
+	//			arr[i - 1] = b;
+	//			
+	//		}
+	//	++j;
+	//}
+
+	
+
